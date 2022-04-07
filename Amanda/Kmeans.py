@@ -17,20 +17,23 @@ class Kmeans:
     images = Downsampling()
     data = images.BGR2HSV()
 
+
+
+    debug = False
+
     def clustering(self):
         # Number of clusters
         clusters = KMeans(n_clusters=5)
 
-        # Making the clustering process illumination invariant by setting saturation and value to 180.
+        results = []
+
         for img in self.data:
+            # The hue for each image is stored in a list
+            hue_values = []
 
             # Making the clustering process illumination invariant by setting saturation and value to 180.
             img[:, :, 1] = 180
             img[:, :, 2] = 180
-            # print("Image shape:", img.shape)
-            # print("Image hue:", img)
-            # cv.imshow("Max sat and val", img)
-            # cv.waitKey(0)
 
             # Perform clustering
             clusters.fit(img.reshape(-1, 3))
@@ -43,14 +46,25 @@ class Kmeans:
             for idx, centers in enumerate(clusters.cluster_centers_):
                 palette[:, int(idx * steps):(int((idx + 1) * steps)), :] = centers
 
-            print("Cluster centers: \n", clusters.cluster_centers_)
+            for color in clusters.cluster_centers_:
+                hue_values.append(color[0])
 
-            # Show image and corresponding palette
-            img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
-            palette = cv.cvtColor(palette, cv.COLOR_HSV2BGR)
-            cv.imshow("Image BGR", img)
-            cv.waitKey(0)
-            cv.imshow("Palette", palette)
-            cv.waitKey(0)
-            cv.destroyAllWindows()
+            results.append(hue_values)
+
+            if self.debug:
+                # Print results
+                print("Cluster centers: \n", clusters.cluster_centers_)
+                print("Most dominant hue values", results)
+
+                # Show image and corresponding palette
+                img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
+                palette = cv.cvtColor(palette, cv.COLOR_HSV2BGR)
+                cv.imshow("Image BGR", img)
+                cv.waitKey(0)
+                cv.imshow("Palette", palette)
+                cv.waitKey(0)
+                cv.destroyAllWindows()
+
+        print("Hue clusters for all images:", results)
+        return results
 
