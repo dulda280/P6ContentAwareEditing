@@ -17,8 +17,6 @@ class Kmeans:
     images = Downsampling()
     data = images.BGR2HSV()
 
-
-
     debug = False
 
     def clustering(self):

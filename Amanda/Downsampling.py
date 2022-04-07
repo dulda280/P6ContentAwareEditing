@@ -116,6 +116,9 @@ class Downsampling:
             img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
             self.HSV_img.append(img)
 
+            cv.imshow("Data", img)
+            cv.waitKey(0)
+
         return self.HSV_img
 
 

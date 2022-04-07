@@ -1,7 +1,6 @@
 from Downsampling import *
-#from Classification import *
 from Kmeans import *
-
+#from DBscan import *
 
 if __name__ == '__main__':
     images = Downsampling()
@@ -12,6 +11,8 @@ if __name__ == '__main__':
 
     clusters = Kmeans()
     clusters.clustering()
+
+    #db = DBscan()
 
     # cluster = Clustering()
     # classes = Classification()
