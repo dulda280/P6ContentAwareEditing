@@ -1,7 +1,7 @@
 import os
 
 import numpy
-from PIL import Image
+#from PIL import Image
 import glob
 import cv2
 import numpy as np
@@ -10,8 +10,8 @@ from keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling
 from tensorflow import keras
 from keras import layers
 
-path = "C:/Users/krell/PycharmProjects/Convulutionalneurnalenrtnenrewo/train/*.jpg"
-pathTest= "C:/Users/krell/PycharmProjects/Convulutionalneurnalenrtnenrewo/test/*.jpg"
+path = "C:/Users/krell/PycharmProjects/P6ContentAwareEditing/KristianNN/train/*.jpg"
+pathTest= "C:/Users/krell/PycharmProjects/P6ContentAwareEditing/KristianNN/test/*.jpg"
 files = glob.glob(path)
 files2 = glob.glob(pathTest)
 img_size = 128
@@ -47,9 +47,6 @@ x = np.array(x).reshape(-1,img_size,img_size,3)
 test = np.array(test).reshape(-1,img_size,img_size,3)
 y = np.array(y)
 
-print(len(x))
-print(len(y))
-print(x[0][1][1])
 
 model = Sequential()
 model.add(Conv2D(64, (3,3), kernel_initializer='normal', input_shape = x.shape[1:], activation='relu'))
@@ -58,14 +55,14 @@ model.add(MaxPooling2D(pool_size=(2,2)))
 model.add(Conv2D(64, (3,3),kernel_initializer='normal', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2,2)))
 
-
-#model.add(Dense(64, kernel_initializer='normal',activation='relu'))
-
 model.add(Flatten())
+model.add(Dense(64, kernel_initializer='normal',activation='relu'))
+
+
 model.add(Dense(1, kernel_initializer='normal',activation='linear'))
 
 model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
-model.fit(x,y, batch_size=1, epochs= 10, validation_split = 0.3)
+model.fit(x,y, batch_size=1, epochs= 30, validation_split = 0.1)
 
 prediction = model.predict(test)
 print(prediction)
