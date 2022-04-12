@@ -1,7 +1,7 @@
 from Downsampling import *
 from Kmeans import *
 from DBscan import *
-from KmeansProportion import *
+from ThomasMain import *
 
 if __name__ == '__main__':
     # Import images, rescale, convert to HSV
@@ -12,6 +12,13 @@ if __name__ == '__main__':
     kmeans = Kmeans()
     kmeans.clustering()
 
+    canny = CannyEdge()
+    canny.main()
+    # edge detection 1: Thomas
+    # edge detection 2: Seb
+
     # Cluster images based on edges and hue
     db = DBscan()
     db.classify()
+
+    # neural network: Kristian
