@@ -4,10 +4,7 @@ from builtins import input
 import cv2
 import cv2 as cv
 import numpy as np
-import argparse
-import keyboard
-import rawpy
-import imageio
+
 import os
 # parser = argparse.ArgumentParser(description='hej')
 # parser.add_argument('--input', help='500Billeder/', default='dataset/DSC00778.jpg')
@@ -16,19 +13,6 @@ import os
 
 
 # new_image = np.zeros(image.shape, image.dtype)
-def raw2JPG():
-    path = os.getcwd()
-    path = path + '\\rawData'
-    print('her er path: ', path)
-    pathDir = os.listdir(path)
-    print('her er directory: ', pathDir)
-    images = []
-
-    for index in range(0, len(pathDir)):
-        raw = rawpy.imread(str(path) + '\\' + str(pathDir[index]))
-        rgb = raw.postprocess()
-        imageio.imsave(f'convertedimg{index}.jpg', rgb)
-
 
 def rescale_image(image, res_x, res_y):
     rescale_dimensions = (res_y, res_x)
@@ -50,7 +34,7 @@ if __name__ == "__main__":
         y = int(image.shape[1] / 4)
 
         new_image = rescale_image(image, x, y)
-        gamma_image = adjust_gamma(new_image, gamma=1.3)
+        gamma_image = adjust_gamma(new_image, gamma=1.2)
 
         cv.imshow('OG rescaled', new_image)
         cv.imshow('gamma', gamma_image)
@@ -72,16 +56,15 @@ if __name__ == "__main__":
 
 
     image = cv2.imread(imgP)
-    print(image)
-    cv.imshow(f'{pathDir[1]}', image)
-    cv.waitKey()
-    new_image = rescale_image(image, int(image.shape[0] / 4), int(image.shape[1] / 4))
-    gamma_image = adjust_gamma(image, gamma=1.3)
 
-    cv.imshow('OG rescaled', new_image)
+    new_image = rescale_image(image, int(image.shape[0]*3/4), int(image.shape[1]*3/4))
+    gamma_image = adjust_gamma(new_image, gamma=1.)
+
+    cv.imshow(f'{pathDir[3]}', new_image)
     cv.imshow('gamma', gamma_image)
-    cv.waitKey()
+    cv.waitKey(0)
     # Wait until user press some key
 
     # cv.imwrite('C:/Users/krell/PycharmProjects/Convulutionalneurnalenrtnenrewo/Redigeret/brightness.jpg', new_image)
-    #cv.imwrite('C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\trainingData\\trainedImage1.jpg', gamma_image)
+    cv.imwrite('C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\Gamma og resize\\correctedData\\corrected60.jpg', gamma_image)
+
