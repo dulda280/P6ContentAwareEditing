@@ -1,6 +1,7 @@
 from Downsampling import *
 from Kmeans import *
-#from DBscan import *
+from DBscan import *
+from KmeansProportion import *
 
 if __name__ == '__main__':
     images = Downsampling()
@@ -9,11 +10,8 @@ if __name__ == '__main__':
     images.recolor_images()
     images.BGR2HSV()
 
-    clusters = Kmeans()
-    clusters.clustering()
+    kmeans = Kmeans()
+    kmeans.clustering()
 
-    #db = DBscan()
-
-    # cluster = Clustering()
-    # classes = Classification()
-
+    db = DBscan()
+    db.classify()

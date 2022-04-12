@@ -10,13 +10,14 @@ import math
 
 class Downsampling:
 
-    folder_dir = "C:/Users/Amans/PycharmProjects/clustering/imagefolder"  # image path/directory
+    folder_dir = "D:\Git_repositoryries\P6ContentAwareEditing\Amanda\imagefolder"  # image path/directory
     original_img = []
     resized_img = []
     recolored_img = []
     HSV_img = []
 
     def import_images(self):
+        print("Importing images...")
         for img in os.listdir(self.folder_dir):
             img = cv.imread(os.path.join(self.folder_dir, img))
             if img is not None:
@@ -115,9 +116,6 @@ class Downsampling:
             # Thus, OpenCV uses HSV ranges between (0-180, 0-255, 0-255)
             img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
             self.HSV_img.append(img)
-
-            cv.imshow("Data", img)
-            cv.waitKey(0)
 
         return self.HSV_img
 

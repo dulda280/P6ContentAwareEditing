@@ -3,27 +3,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 import PIL
 from sklearn.cluster import KMeans
+import warnings
 
 from Downsampling import *
 
 # Colors: https://towardsdatascience.com/finding-most-common-colors-in-python-47ea0767a06a
 # Edges:  https://towardsdatascience.com/canny-edge-detection-step-by-step-in-python-computer-vision-b49c3a2d8123
 
-# HSV: 360, 180, 180
+# HSV range: H 360, S 180, V 180
 
 
 class Kmeans:
     # Import images
     images = Downsampling()
     data = images.BGR2HSV()
+    results = []
 
     debug = False
 
     def clustering(self):
         # Number of clusters
         clusters = KMeans(n_clusters=5)
-
-        results = []
 
         for img in self.data:
             # The hue for each image is stored in a list
@@ -35,6 +35,8 @@ class Kmeans:
 
             # Perform clustering
             clusters.fit(img.reshape(-1, 3))
+            #print("img reshape", img.reshape(-1, 3))
+            #print("img", img)
 
             # Create palette with clusters
             width = 300
@@ -45,14 +47,14 @@ class Kmeans:
                 palette[:, int(idx * steps):(int((idx + 1) * steps)), :] = centers
 
             for color in clusters.cluster_centers_:
-                hue_values.append(color[0])
+                hue_values.append(round(color[0], 2))
 
-            results.append(hue_values)
+            self.results.append(hue_values)
 
             if self.debug:
                 # Print results
                 print("Cluster centers: \n", clusters.cluster_centers_)
-                print("Most dominant hue values", results)
+                print("Most dominant hue values", self.results)
 
                 # Show image and corresponding palette
                 img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
@@ -63,6 +65,6 @@ class Kmeans:
                 cv.waitKey(0)
                 cv.destroyAllWindows()
 
-        print("Hue clusters for all images:", results)
-        return results
+        print("Hue clusters for all images, aka. results:", len(self.results), self.results)
+        return self.results
 
