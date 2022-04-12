@@ -1,5 +1,7 @@
 from __future__ import print_function
 from builtins import input
+
+import cv2
 import cv2 as cv
 import numpy as np
 import argparse
@@ -60,4 +62,26 @@ if __name__ == "__main__":
                    gamma_image)
         print('hej')
 
-    raw2JPG()
+    path = os.getcwd()
+    path = path + '\\data'
+    print('her er path: ', path)
+    pathDir = os.listdir(path)
+    print('her er directory: ', pathDir)
+    print("hvad:_ ", path + "\\" + pathDir[1])
+    imgP = str(path + "\\" + pathDir[59])
+
+
+    image = cv2.imread(imgP)
+    print(image)
+    cv.imshow(f'{pathDir[1]}', image)
+    cv.waitKey()
+    new_image = rescale_image(image, int(image.shape[0] / 4), int(image.shape[1] / 4))
+    gamma_image = adjust_gamma(image, gamma=1.3)
+
+    cv.imshow('OG rescaled', new_image)
+    cv.imshow('gamma', gamma_image)
+    cv.waitKey()
+    # Wait until user press some key
+
+    # cv.imwrite('C:/Users/krell/PycharmProjects/Convulutionalneurnalenrtnenrewo/Redigeret/brightness.jpg', new_image)
+    #cv.imwrite('C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\trainingData\\trainedImage1.jpg', gamma_image)
