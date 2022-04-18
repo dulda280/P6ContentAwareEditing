@@ -2,7 +2,6 @@ import math
 
 import cv2
 import numpy as np
-import cv2 as cv
 import os
 from matplotlib import pyplot as plt
 import tqdm
@@ -41,9 +40,9 @@ if __name__ == '__main__':
             rescaled_image = ip.rescale_image(img, 64, 64)
             fm.save_image(originals_directory, rescaled_image, "original", index)
 
-            imgGray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-            resized = ip.rescale_image(imgGray, 256, 256)
-            fm.save_image(save_directory, resized, "resized", index)
+            imgGray = cv.cvtColor(rescaled_image, cv.COLOR_BGR2GRAY)
+            #resized = ip.rescale_image(imgGray, 256, 256)
+            #fm.save_image(save_directory, resized, "resized", index)
             gaussian = cv2.GaussianBlur(imgGray, (3, 3), cv2.BORDER_DEFAULT)
             image_edges = cv.Canny(gaussian, 127, 255)
             reshaped_edges = image_edges.reshape(1, -1)
@@ -60,12 +59,13 @@ if __name__ == '__main__':
             fm.save_image(cca_directory, cca, "cca", index)
             # fm.save_image(cca_directory, cca_cleaned, "cca_cleaned", index)
 
-            contours, hierarchy = cv2.findContours(image_edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+            print("shape, len", image_edges.shape, len(image_edges))
+            contours = cv2.findContours(image_edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
             contour = max(contours, key=len)
             largest_connected_edge = len(contour)
 
-            contourImg = cv2.drawContours(cca, contour, -1, (0, 0, 255), 1)
-            fm.save_image(cca_directory, contourImg, "contour", index)
+            #contourImg = cv2.drawContours(cca, contour, -1, (0, 0, 255), 1)
+            #fm.save_image(cca_directory, contourImg, "contour", index)
             print(pixel_groups)
             print("Number of Edge Groups: " + str(num_edge_groups))
             print("Largest Connected Edge (px): " + str(largest_connected_edge))

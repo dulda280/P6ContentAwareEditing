@@ -7,18 +7,33 @@ import matplotlib.pyplot as plt
 # https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html#sphx-glr-auto-examples-cluster-plot-dbscan-py
 
 from Kmeans import *
+from ThomasMain import *
+from CornerDetection import *
 
 class DBscan:
 
     # import data
     kmeans = Kmeans()
     data = kmeans.clustering()
+    canny = ThomasMain() #return self.largest_edge, self.number_of_edges
+    edge_data = canny.main() #return self.largest_edge, self.number_of_edges
+    corner = CornerDetection()
+    corner_data = corner.main()
+
+    def merge_data(self):
+        for i in range(0, len(self.data)):
+            self.data[i].append(float(self.edge_data[0][i]))  # append largest edge
+            self.data[i].append(float(self.edge_data[1][i]))  # append number of edges
+            self.data[i].append(float(self.corner_data[i]))   # number of corners
+            #self.data[i].append(float(self.corner_data[1][i]))
+
+        print("corner_data 0 =", self.corner_data)
+        print("DATA: [HUE, HUE, HUE, HUE, HUE, LARGEST_EDGE, N_EDGES] \n", self.data)
+        return self.data
 
     def classify(self):
-        self.data = np.array(self.data)
-
         # Compute DBSCAN
-        db = DBSCAN(eps=50, min_samples=0.2).fit(self.data)
+        db = DBSCAN(eps=50, min_samples=2).fit(self.data)
         core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
         core_samples_mask[db.core_sample_indices_] = True
         labels = db.labels_

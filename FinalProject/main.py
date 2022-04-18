@@ -2,6 +2,7 @@ from Downsampling import *
 from Kmeans import *
 from DBscan import *
 from ThomasMain import *
+from CornerDetection import *
 
 if __name__ == '__main__':
     # Import images, rescale, convert to HSV
@@ -9,16 +10,18 @@ if __name__ == '__main__':
     images.hsv_images()
 
     # Cluster hue values in images
-    kmeans = Kmeans()
-    kmeans.clustering()
+    # kmeans = Kmeans()
+    # kmeans.clustering()
 
-    canny = CannyEdge()
-    canny.main()
-    # edge detection 1: Thomas
-    # edge detection 2: Seb
+    # canny = ThomasMain()
+    # canny.main()
+
+    # corner = CornerDetection()
+    # corner.main()
 
     # Cluster images based on edges and hue
     db = DBscan()
+    db.merge_data()
     db.classify()
 
     # neural network: Kristian
