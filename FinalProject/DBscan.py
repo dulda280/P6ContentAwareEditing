@@ -13,12 +13,11 @@ from CornerDetection import *
 class DBscan:
 
     # import data
-    kmeans = Kmeans()
-    data = kmeans.clustering()
-    canny = ThomasMain() #return self.largest_edge, self.number_of_edges
-    edge_data = canny.main() #return self.largest_edge, self.number_of_edges
-    corner = CornerDetection()
-    corner_data = corner.main()
+
+    def __init__(self, fiveColours, largestEdge, edgeGroups, corners):
+        self.data = fiveColours
+        self.edge_data = edgeGroups, largestEdge
+        self.corner_data = corners
 
     def merge_data(self):
         for i in range(0, len(self.data)):
@@ -32,8 +31,8 @@ class DBscan:
         return self.data
 
     def classify(self):
-        # Compute DBSCAN
-        db = DBSCAN(eps=50, min_samples=2).fit(self.data)
+        # Compute DBSCAN00
+        db = DBSCAN(eps=75, min_samples=2).fit(self.data)
         core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
         core_samples_mask[db.core_sample_indices_] = True
         labels = db.labels_
@@ -41,11 +40,13 @@ class DBscan:
         # Number of clusters in labels, ignoring noise if present.
         n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
         n_noise_ = list(labels).count(-1)
-
+        print("=======================================================================")
         print("Labels on clusters \n", labels)
+        print("-----------------------------------------------------------------------")
         print("Estimated number of clusters: %d" % n_clusters_)
         print("Estimated number of noise points: %d" % n_noise_)
-        print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(self.data, labels))
+        print("=======================================================================")
+        #print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(self.data, labels))
 
         # Black removed and is used for noise instead.
         unique_labels = set(labels)
@@ -56,12 +57,14 @@ class DBscan:
                 col = [0, 0, 0, 1]
 
             class_member_mask = labels == k
+            print("WHAST", class_member_mask)
+            print("corewhat,", core_samples_mask)
+            # xy = self.data[class_member_mask & core_samples_mask]
+            # print(xy)
+            # plt.plot(xy[:, 0], xy[:, 1], "o", markerfacecolor=tuple(col), markeredgecolor="k", markersize=14, )
+            #
+            # xy = self.data[int(class_member_mask) & int(~core_samples_mask)]
+            # plt.plot(xy[:, 0], xy[:, 1], "o", markerfacecolor=tuple(col), markeredgecolor="k", markersize=6, )
 
-            xy = self.data[class_member_mask & core_samples_mask]
-            plt.plot(xy[:, 0], xy[:, 1], "o", markerfacecolor=tuple(col), markeredgecolor="k", markersize=14, )
-
-            xy = self.data[class_member_mask & ~core_samples_mask]
-            plt.plot(xy[:, 0], xy[:, 1], "o", markerfacecolor=tuple(col), markeredgecolor="k", markersize=6, )
-
-        plt.title("Estimated number of clusters: %d" % n_clusters_)
-        plt.show()
+        # plt.title("Estimated number of clusters: %d" % n_clusters_)
+        # plt.show()

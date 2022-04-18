@@ -17,8 +17,10 @@ from ImageProcessing import *
 
 class ThomasMain:
     # import images
-    img = Downsampling()
-    images = img.rescale_images()
+
+
+    def __init__(self, images):
+        self.images = images
 
     ed = EdgeDetection()
     fm = FileManager()
@@ -38,19 +40,19 @@ class ThomasMain:
             imgGray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
             gaussian = cv.GaussianBlur(imgGray, (3, 3), cv.BORDER_DEFAULT)
             image_edges = cv.Canny(gaussian, 127, 255)
-            self.fm.save_image(save_directory, image_edges, "edges", index)
+            #self.fm.save_image(save_directory, image_edges, "edges", index)
 
             pixel_groups = self.ip.count_bw_pixels(image_edges, index)
             cca, num_edge_groups = self.ip.connected_component_labelling(image_edges)
-            self.fm.save_array(image_arrays_directory, cca, "cca_array", index)
-            self.fm.save_image(cca_directory, cca, "cca", index)
+            #self.fm.save_array(image_arrays_directory, cca, "cca_array", index)
+            #self.fm.save_image(cca_directory, cca, "cca", index)
 
             contours, hierarchy = cv.findContours(image_edges, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)  # finder kanter
             contour = max(contours, key=len)  # længste kant
             largest_connected_edge = len(contour)
 
             contourImg = cv.drawContours(cca, contour, -1, (0, 0, 255), 2)
-            self.fm.save_image(cca_directory, contourImg, "contour", index)
+            #self.fm.save_image(cca_directory, contourImg, "contour", index)
 
             print("=======================================================================")
             print(pixel_groups)

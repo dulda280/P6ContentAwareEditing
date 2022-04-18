@@ -12,16 +12,18 @@ from Downsampling import *
 
 class Kmeans:
     # Import images
-    images = Downsampling()
-    data = images.BGR2HSV()
+
     results = []
 
-    debug = False
+    debug = True
+    def __init__(self, images):
+        self.data = images
 
     def clustering(self):
         # Number of clusters
         clusters = KMeans(n_clusters=5)
-
+        index = 0
+        print("Starting clustering loop...")
         for img in self.data:
             # The hue for each image is stored in a list
             hue_values = []
@@ -39,10 +41,12 @@ class Kmeans:
             width = 300
             palette = np.zeros((50, width, 3), np.uint8)
             steps = width / clusters.cluster_centers_.shape[0]
-
+            print("steps: ", steps)
             for idx, centers in enumerate(clusters.cluster_centers_):
                 palette[:, int(idx * steps):(int((idx + 1) * steps)), :] = centers
 
+            print("what is this cluster thing: ", clusters.cluster_centers_)
+            print("how long is this cluster thing: ", len(clusters.cluster_centers_))
             for color in clusters.cluster_centers_:
                 hue_values.append(round(color[0], 2))
 
@@ -56,11 +60,13 @@ class Kmeans:
                 # Show image and corresponding palette
                 img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
                 palette = cv.cvtColor(palette, cv.COLOR_HSV2BGR)
-                cv.imshow("Image BGR", img)
-                cv.waitKey(0)
-                cv.imshow("Palette", palette)
-                cv.waitKey(0)
-                cv.destroyAllWindows()
+                # cv.imshow("Image BGR", img)
+                # cv.waitKey(0)
+                # cv.imshow("Palette", palette)
+                # cv.waitKey(0)
+                # cv.destroyAllWindows()
+                index += 1
+                print("Clustered image number: ", index)
 
         print("Hue clusters for all images, aka. results:", len(self.results), self.results)
         return self.results

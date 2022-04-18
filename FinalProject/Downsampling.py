@@ -3,23 +3,29 @@ import cv2 as cv
 
 
 class Downsampling:
-    folder_dir = "D:\Git_repositoryries\P6ContentAwareEditing\Amanda\imagefolder"  # image path/directory
-    original_img = []
+    folder_dir = "..\Amanda\imagefolder"  # image path/directory
+
     resized_img = []
     recolored_img = []
     HSV_img = []
 
     def import_images(self):
+        original_img = []
         print("Importing images...")
-        for img in os.listdir(self.folder_dir):
-            img = cv.imread(os.path.join(self.folder_dir, img))
+        print("Importing from directory: ", os.listdir(self.folder_dir))
+        dir = os.listdir(self.folder_dir)
+        for index in range(0, len(dir)):
+            print("This img: ", self.folder_dir + "\\" + dir[index])
+            img = cv.imread(self.folder_dir + "\\" + dir[index])
             if img is not None:
-                self.original_img.append(img)
+                original_img.append(img)
 
-        return self.original_img
+        #print("imported folder: ", self.original_img)
+        #print("imported folder length: ", len(self.original_img))
+        return original_img
 
     def rescale_images(self):
-
+        self.original_img = self.import_images()
         # new image dimensions
         width = 64
         height = 64

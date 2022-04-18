@@ -8,9 +8,9 @@ from Downsampling import *
 
 class CornerDetection:
     # import images
-    img = Downsampling()
-    images = img.rescale_images()
 
+    def __init__(self, images):
+        self.images = images
     def makeImagesGrayscale(self, imageDir):
         grayImages = []
         for image in imageDir:
@@ -30,10 +30,10 @@ class CornerDetection:
         n_corners = []
 
         for index in range(0, len(imageDir)):
-            max_corners = imageDir[0].shape[0] * 1.5
+            max_corners = int(imageDir[0].shape[0] * 1.5)
             corners = cv2.goodFeaturesToTrack(imageDir[index], max_corners, 0.03, 10)
             corners = np.int0(corners)
-            print("Corners,,,,,,,,,,,,,,,,,,", corners)
+            #rint("Corners,,,,,,,,,,,,,,,,,,", corners)
             canny = cv2.Canny(imageDir[index], threshold1=50, threshold2=250)
 
             for i in corners:
