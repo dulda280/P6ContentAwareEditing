@@ -1,6 +1,8 @@
 
 import numpy as np
 from sklearn.cluster import KMeans
+from collections import Counter
+
 
 from Downsampling import *
 
@@ -47,10 +49,24 @@ class Kmeans:
 
             print("what is this cluster thing: ", clusters.cluster_centers_)
             print("how long is this cluster thing: ", len(clusters.cluster_centers_))
+
             for color in clusters.cluster_centers_:
                 hue_values.append(round(color[0], 2))
 
+            n_pixels = len(clusters.labels_)
+            counter = Counter(clusters.labels_)  # count how many pixels per cluster
+            arr = []
+
+            for i in counter:
+                arr.append((counter[i], hue_values[i]))
+
+            arr.sort(reverse=True)
+            print("arr, sorted", arr)
+            hue_values = [hue[1] for hue in arr]
+
+            print("hue values", hue_values)
             self.results.append(hue_values)
+
 
             if self.debug:
                 # Print results
