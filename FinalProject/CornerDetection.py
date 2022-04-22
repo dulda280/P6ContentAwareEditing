@@ -11,6 +11,7 @@ class CornerDetection:
 
     def __init__(self, images):
         self.images = images
+
     def makeImagesGrayscale(self, imageDir):
         grayImages = []
         for image in imageDir:
@@ -33,7 +34,7 @@ class CornerDetection:
             max_corners = int(imageDir[0].shape[0] * 1.5)
             corners = cv2.goodFeaturesToTrack(imageDir[index], max_corners, 0.03, 10)
             corners = np.int0(corners)
-            #rint("Corners,,,,,,,,,,,,,,,,,,", corners)
+            # rint("Corners,,,,,,,,,,,,,,,,,,", corners)
             canny = cv2.Canny(imageDir[index], threshold1=50, threshold2=250)
 
             for i in corners:
@@ -43,7 +44,7 @@ class CornerDetection:
 
             n_corners.append(len(corners))
 
-        print("n_corners", n_corners)
+        # print("n_corners", n_corners)
         return n_corners
 
     def cornerDetection(self, imageDir):
@@ -64,20 +65,20 @@ class CornerDetection:
 
                 tempX = int(i[0][0])
                 tempY = int(i[0][1])
-                print(f"pixel value at index({int(tempX)}, {int(tempY)}): ", canny[tempX][tempY])
-                print("ffff", len(canny))
+                # print(f"pixel value at index({int(tempX)}, {int(tempY)}): ", canny[tempX][tempY])
+                # print("ffff", len(canny))
                 for j in range(0, 4):
                     if x + j < len(canny) and y + j < len(canny) and x - j > 0 and y - j > 0:
                         if canny[x, y] > 0 or canny[x + j, y] > 0 or canny[x, y + j] > 0 or canny[x + j, y + j] > 0 or \
                                 canny[
                                     x - j, y] > 0 or canny[x, y - j] > 0 or canny[x - j, y - j] > 0:
-                            print(f"pixel value at corner index({int(x)}, {int(y)}): {canny[int(tempX), int(tempX)]} ")
+                            # print(f"pixel value at corner index({int(x)}, {int(y)}): {canny[int(tempX), int(tempX)]} ")
                             cv2.circle(canny, (x, y), 3, 255, -1)
                             cornerCount += 1
             cornerCountArray.append(cornerCount)
 
             cornerImages.append(canny)
-        print("Corners: ", len(cornerCountArray), cornerCountArray)
+        # print("Corners: ", len(cornerCountArray), cornerCountArray)
         return cornerCountArray
 
         # i, j = (canny > 200).nonzero()
@@ -89,7 +90,7 @@ class CornerDetection:
         preProcessImg = self.makeImagesGrayscale(blurImg)
         # cornerIMG = self.cornerDetection(preProcessImg)  # Nogle hjørner
         corners = self.getAllCorners(preProcessImg)  # Mega mange hjørner
-        print("Corners.......", corners)
+        # print("Corners.......", corners)
         return corners
 
     # for image in cornerIMG:

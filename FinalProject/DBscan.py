@@ -26,8 +26,8 @@ class DBscan:
             self.data[i].append(float(self.corner_data[i]))   # number of corners
             #self.data[i].append(float(self.corner_data[1][i]))
 
-        print("corner_data 0 =", self.corner_data)
-        print("DATA: [HUE, HUE, HUE, HUE, HUE, LARGEST_EDGE, N_EDGES] \n", self.data)
+        # print("corner_data 0 =", self.corner_data)
+        # print("DATA: [HUE, HUE, HUE, HUE, HUE, LARGEST_EDGE, N_EDGES] \n", self.data)
         return self.data
 
     def classify(self):
@@ -40,12 +40,12 @@ class DBscan:
         # Number of clusters in labels, ignoring noise if present.
         n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
         n_noise_ = list(labels).count(-1)
-        print("=======================================================================")
-        print("Labels on clusters \n", labels)
-        print("-----------------------------------------------------------------------")
-        print("Estimated number of clusters: %d" % n_clusters_)
-        print("Estimated number of noise points: %d" % n_noise_)
-        print("=======================================================================")
+        # print("=======================================================================")
+        # print("Labels on clusters \n", labels)
+        # print("-----------------------------------------------------------------------")
+        # print("Estimated number of clusters: %d" % n_clusters_)
+        # print("Estimated number of noise points: %d" % n_noise_)
+        # print("=======================================================================")
         #print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(self.data, labels))
 
         # Black removed and is used for noise instead.
@@ -57,8 +57,8 @@ class DBscan:
                 col = [0, 0, 0, 1]
 
             class_member_mask = labels == k
-            print("WHAST", class_member_mask)
-            print("corewhat,", core_samples_mask)
+            # print("WHAST", class_member_mask)
+            # print("corewhat,", core_samples_mask)
             # xy = self.data[class_member_mask & core_samples_mask]
             # print(xy)
             # plt.plot(xy[:, 0], xy[:, 1], "o", markerfacecolor=tuple(col), markeredgecolor="k", markersize=14, )

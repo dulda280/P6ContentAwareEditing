@@ -1,9 +1,10 @@
 import os
 import cv2 as cv
+from tqdm import tqdm
 
 
 class Downsampling:
-    folder_dir = "..\Amanda\imagefolder"  # image path/directory
+    folder_dir = "Input_Directory"  # image path/directory
 
     resized_img = []
     recolored_img = []
@@ -11,11 +12,11 @@ class Downsampling:
 
     def import_images(self):
         original_img = []
-        print("Importing images...")
-        print("Importing from directory: ", os.listdir(self.folder_dir))
+        # print("Importing images...")
+        # print("Importing from directory: ", os.listdir(self.folder_dir))
         dir = os.listdir(self.folder_dir)
-        for index in range(0, len(dir)):
-            print("This img: ", self.folder_dir + "\\" + dir[index])
+        for index in tqdm(range(0, len(dir))):
+            #print("This img: ", self.folder_dir + "\\" + dir[index])
             img = cv.imread(self.folder_dir + "\\" + dir[index])
             if img is not None:
                 original_img.append(img)

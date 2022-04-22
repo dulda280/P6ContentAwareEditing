@@ -8,6 +8,7 @@ from PIL import Image
 import scipy
 import scipy.misc
 import scipy.cluster
+np.seterr(divide='ignore', invalid='ignore')
 
 
 class ImageProcessing:
