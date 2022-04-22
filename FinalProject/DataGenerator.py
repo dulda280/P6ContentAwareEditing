@@ -196,5 +196,5 @@ class DataGenerator:
 
 
 if __name__ == '__main__':
-    dataGenerator = DataGenerator(input_directory="Input_Directory", output_directory="Output_Directory")
+    dataGenerator = DataGenerator(input_directory="Input_Directory_Landscape", output_directory="Output_Directory")
     dataGenerator.start_data_generator(True)
