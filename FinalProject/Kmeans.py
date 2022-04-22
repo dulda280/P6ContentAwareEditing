@@ -17,7 +17,7 @@ class Kmeans:
 
     results = []
 
-    debug = True
+    debug = False
     def __init__(self, images):
         self.data = images
 
@@ -25,7 +25,7 @@ class Kmeans:
         # Number of clusters
         clusters = KMeans(n_clusters=5)
         index = 0
-        print("Starting clustering loop...")
+        #print("Starting clustering loop...")
         for img in self.data:
             # The hue for each image is stored in a list
             hue_values = []
@@ -43,12 +43,12 @@ class Kmeans:
             width = 300
             palette = np.zeros((50, width, 3), np.uint8)
             steps = width / clusters.cluster_centers_.shape[0]
-            print("steps: ", steps)
+            #print("steps: ", steps)
             for idx, centers in enumerate(clusters.cluster_centers_):
                 palette[:, int(idx * steps):(int((idx + 1) * steps)), :] = centers
 
-            print("what is this cluster thing: ", clusters.cluster_centers_)
-            print("how long is this cluster thing: ", len(clusters.cluster_centers_))
+            #print("what is this cluster thing: ", clusters.cluster_centers_)
+            #print("how long is this cluster thing: ", len(clusters.cluster_centers_))
 
             for color in clusters.cluster_centers_:
                 hue_values.append(round(color[0], 2))
@@ -61,10 +61,10 @@ class Kmeans:
                 arr.append((counter[i], hue_values[i]))
 
             arr.sort(reverse=True)
-            print("arr, sorted", arr)
+            #print("arr, sorted", arr)
             hue_values = [hue[1] for hue in arr]
 
-            print("hue values", hue_values)
+            #print("hue values", hue_values)
             self.results.append(hue_values)
 
 
@@ -84,6 +84,6 @@ class Kmeans:
                 index += 1
                 print("Clustered image number: ", index)
 
-        print("Hue clusters for all images, aka. results:", len(self.results), self.results)
+        #print("Hue clusters for all images, aka. results:", len(self.results), self.results)
         return self.results
 

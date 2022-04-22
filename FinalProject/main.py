@@ -4,10 +4,12 @@ from DBscan import *
 from ThomasMain import *
 from CornerDetection import *
 from FileManager import *
+from Normalize import *
 
 if __name__ == '__main__':
     # Class Instantiations
     fileManager = FileManager()
+    normalize = Normalize()
 
     # Import images, rescale, convert to HSV
     images = Downsampling()
@@ -30,9 +32,11 @@ if __name__ == '__main__':
 
     corner = CornerDetection(img)
     corner_data = corner.main()
-    print("corner_data: ", corner_data)
-    print(len(corner_data))
+    #print("corner_data: ", corner_data)
+    #print(len(corner_data))
 
+    matrix = (normalize.norm(data), normalize.norm(edge_data[0]), normalize.norm(edge_data[1]), normalize.norm(corner_data))
+    print(matrix)
     # Cluster images based on edges and hue
     db = DBscan(data, edge_data[0], edge_data[1], corner_data)
     db.merge_data()

@@ -14,3 +14,5 @@ FinalProject/__pycache__/ImageProcessing.cpython-310.pyc
 FinalProject/__pycache__/Kmeans.cpython-310.pyc
 
 FinalProject/__pycache__/ThomasMain.cpython-310.pyc
+
+*.pyc

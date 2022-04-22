@@ -16,7 +16,7 @@ class Downsampling:
         # print("Importing from directory: ", os.listdir(self.folder_dir))
         dir = os.listdir(self.folder_dir)
         for index in tqdm(range(0, len(dir))):
-            #print("This img: ", self.folder_dir + "\\" + dir[index])
+            print("This img: ", self.folder_dir + "\\" + dir[index])
             img = cv.imread(self.folder_dir + "\\" + dir[index])
             if img is not None:
                 original_img.append(img)
