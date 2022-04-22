@@ -107,6 +107,12 @@ class Downsampling:
 
         return self.recolored_img
 
+    def rescale_image(self, image, res_x, res_y):
+        rescale_dimensions = (res_y, res_x)
+        rescaled_image = cv.resize(image, rescale_dimensions, interpolation=cv.INTER_AREA)
+        rescaled_image = cv.cvtColor(rescaled_image, cv.COLOR_BGR2RGB)
+        return rescaled_image
+
     def BGR2HSV(self):
 
         for img in self.resized_img:

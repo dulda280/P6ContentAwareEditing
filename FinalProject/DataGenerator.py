@@ -7,7 +7,8 @@ import cv2
 from FileManager import *
 from ImageProcessing import *
 import screeninfo
-
+from Gamma import *
+from Downsampling import *
 
 class DataGenerator:
     input_directory = ""
@@ -21,6 +22,7 @@ class DataGenerator:
         # Class Instantiations
         fileManager = FileManager()
         imageProcessing = ImageProcessing()
+        downSampling = Downsampling()
 
         # Properties for Text Display on images
         fF = cv2.FONT_HERSHEY_PLAIN
@@ -46,8 +48,8 @@ class DataGenerator:
             loaded_image = cv2.cvtColor(loaded_image, cv2.COLOR_BGR2RGB)
 
             # Rescaled Images
-            rescaled_image = imageProcessing.rescale_image(loaded_image, 325, 325)
-            pr_rescaled_image = imageProcessing.rescale_image(loaded_image, 325, 325)
+            rescaled_image = downSampling.rescale_image(loaded_image, 325, 325)
+            pr_rescaled_image = downSampling.rescale_image(loaded_image, 325, 325)
 
             # 0.5 - 1.5
 

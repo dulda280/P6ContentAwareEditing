@@ -65,6 +65,11 @@ class ImageProcessing:
         #print('most frequent is %s (#%s)' % (peak, colour))
         return peak, colour
 
+    def adjust_gamma(self, image, gamma=1.0):
+        invGamma = 1.0 / gamma
+        table = np.array([((i / 255.9) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
+        return cv.LUT(image, table)
+
     def find_all_pixels_ignore_black(self, image):
         output_image = image
         output_array = []
