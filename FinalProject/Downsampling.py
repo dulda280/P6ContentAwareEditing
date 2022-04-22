@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 
 class Downsampling:
-    folder_dir = "Input_Directory_Landscape"  # image path/directory
+    folder_dir = "Input_Directory_Portrait"  # image path/directory
 
     resized_img = []
     recolored_img = []
