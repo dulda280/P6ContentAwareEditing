@@ -10,6 +10,8 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
 from tensorflow import keras
 from keras import layers
+from keras import Model
+from keras.applications.vgg16 import VGG16
 
 
 # Path to trian and test pictures
@@ -55,29 +57,28 @@ x = np.array(x).reshape(-1,img_size,img_size,3)
 test = np.array(test).reshape(-1,img_size,img_size,3)
 y = np.array(y)
 
-# Setting up the network, starting with a convulutional layer.
-model = Sequential()
-model.add(Conv2D(64, (3,3), kernel_initializer='normal', input_shape = x.shape[1:], activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
-# Another convolutional layer
-model.add(Conv2D(64, (3,3),kernel_initializer='normal', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
-# Flattens the data
-model.add(Flatten())
-model.add(Dense(64, kernel_initializer='normal', activation='relu'))
-# End the network with an output layer, that only has one output
 
-model.add(Dense(1, kernel_initializer='normal', activation='relu'))
+print(test[1][1][1])
+model1 = VGG16(include_top=False, input_shape=(128, 128, 3))
+
+flat1 = Flatten()(model1.layers[-1].output)
+class1 = Dense(1024, kernel_initializer='normal', activation='relu')(flat1)
+output = Dense(1,kernel_initializer='normal', activation= 'relu')(class1)
+
+model1 = Model(inputs=model1.inputs, outputs=output)
 # Define the loss and a
 # ctivation function
-model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
+
+
+
+model1.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
 # Fit the model with the desired batch size(runthroughs before the weights are updated), epochs(how many times the network goes through the layers)
 # and validation split(split between train and test data).
 print("Training network...")
-model.fit(x,y, batch_size=1, epochs= 5, validation_split = 0.2)
-model.summary()
+model1.fit(x,y, batch_size=1, epochs= 1, validation_split = 0.2)
+model1.summary()
 # Use the trained network to make a prediction on some test images
-prediction = model.predict(test)
+prediction = model1.predict(test)
 print("Predicted gamma values for test images:")
 print(prediction)
 gamma_images = []
@@ -98,5 +99,5 @@ for i in files2:
 for i in range(0,len(test2)):
     gammaImage = adjust_gamma(test2[i], gamma=prediction[i])
     gamma_images.append(gammaImage)
-    cv2.imwrite('C:/Users/krell/PycharmProjects/P6ContentAwareEditing/KristianNN/RedigeretAfNetvaerk/' + str(i) + '.jpg', gamma_images[i])
+    cv2.imwrite('C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/redigeret/' + str(i) + '.jpg', gamma_images[i])
 print("Saved Pictures in folder: RedigeretAfNetvaerk")
