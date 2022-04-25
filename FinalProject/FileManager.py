@@ -18,5 +18,5 @@ class FileManager:
             file.write(str(image))
 
     def save_text_file(self, path, value):
-        with open(os.path.join(path, "Picture_Gamma_Values.txt"), "a+") as file:
+        with open(os.path.join(path, "Gamma_Values.txt"), "a+") as file:
             file.write(str(value) + "\n")
