@@ -130,52 +130,52 @@ class DataGenerator:
             elif userInput == 'q':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_05, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="0.5")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="0.5")
                 print("Saved image successfully with a gamma of 0.5")
             elif userInput == 'w':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_06, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="0.6")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="0.6")
                 print("Saved image successfully with a gamma of 0.6")
             elif userInput == 'e':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_07, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="0.7")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="0.7")
                 print("Saved image successfully with a gamma of 0.7")
             elif userInput == 'r':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_08, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="0.8")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="0.8")
                 print("Saved image successfully with a gamma of 0.8")
             elif userInput == 't':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_09, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="0.9")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="0.9")
                 print("Saved image successfully with a gamma of 0.9")
             elif userInput == 'y':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_11, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="1.1")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="1.1")
                 print("Saved image successfully with a gamma of 1.1")
             elif userInput == 'u':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_12, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="1.2")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="1.2")
                 print("Saved image successfully with a gamma of 1.2")
             elif userInput == 'i':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_13, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="1.3")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="1.3")
                 print("Saved image successfully with a gamma of 1.3")
             elif userInput == 'o':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_14, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="1.4")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="1.4")
                 print("Saved image successfully with a gamma of 1.4")
             elif userInput == 'p':
                 fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_15, index=index)
-                fileManager.save_text_file(path="Gamma_Values", value="1.5")
+                fileManager.save_text_file(path="Picture_Gamma_Values", value="1.5")
                 print("Saved image successfully with a gamma of 1.5")
 
             cv2.destroyAllWindows()
