@@ -1,7 +1,6 @@
 import os
 
 import keyboard
-import xlsxwriter as xlsxwriter
 from tqdm import tqdm
 import cv2
 from FileManager import *
@@ -31,7 +30,7 @@ class DataGenerator:
         t = 2
 
         # Index Iterator to determine image number
-        index = 1
+        index = 51
 
         print("+-----------------------------------+")
         print("| Data Generation Started:")
@@ -102,15 +101,15 @@ class DataGenerator:
             # Groups all images and displays them horizontally
             concatenated_images_1 = np.concatenate(
                 (pr_rescaled_image, pr_gamma_image_05, pr_gamma_image_06, pr_gamma_image_07,
-                 pr_gamma_image_08, pr_gamma_image_09, pr_gamma_image_11), axis=1)
+                 pr_gamma_image_08, pr_gamma_image_09), axis=1)
 
             concatenated_images_2 = np.concatenate(
-                (pr_gamma_image_12, pr_gamma_image_13, pr_gamma_image_14, pr_gamma_image_15), axis=1)
+                (pr_gamma_image_11, pr_gamma_image_12, pr_gamma_image_13, pr_gamma_image_14, pr_gamma_image_15), axis=1)
 
             # Window and Monitor Properties
             window_name_1 = 'Images 1'
             window_name_2 = 'Images 2'
-            screen_id = 0
+            screen_id = 1
             screen = screeninfo.get_monitors()[screen_id]
             cv2.namedWindow(window_name_1)
             cv2.namedWindow(window_name_2)
@@ -183,7 +182,8 @@ class DataGenerator:
 
     def directory_filetype_checker(self):
         for image in tqdm(os.listdir(self.input_directory)):
-            if image.endswith(".jpg") or image.endswith(".jpeg") or image.endswith(".png"):
+
+            if image.endswith(".jpg") or image.endswith(".jpeg") or image.endswith(".png") or image.endswith(".JPG"):
                 continue
             else:
                 raise ValueError("Image is not of filetype 'jpg' or 'png' stopping generator.")

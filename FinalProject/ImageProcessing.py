@@ -4,7 +4,7 @@ import cv2 as cv
 import numpy as np
 import binascii
 import struct
-from PIL import Image
+#from PIL import Image
 import scipy
 import scipy.misc
 import scipy.cluster
