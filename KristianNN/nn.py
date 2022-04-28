@@ -68,13 +68,13 @@ model.add(Dense(64, kernel_initializer='normal', activation='relu'))
 # End the network with an output layer, that only has one output
 
 model.add(Dense(1, kernel_initializer='normal', activation='relu'))
-# Define the loss and a
-# ctivation function
+# Define the loss and activation function
 model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
 # Fit the model with the desired batch size(runthroughs before the weights are updated), epochs(how many times the network goes through the layers)
 # and validation split(split between train and test data).
 print("Training network...")
 model.fit(x,y, batch_size=1, epochs= 5, validation_split = 0.2)
+
 model.summary()
 # Use the trained network to make a prediction on some test images
 prediction = model.predict(test)
