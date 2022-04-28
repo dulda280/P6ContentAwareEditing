@@ -30,7 +30,7 @@ class DataGenerator:
         t = 2
 
         # Index Iterator to determine image number
-        index = 51
+        index = 327
 
         print("+-----------------------------------+")
         print("| Data Generation Started:")
