@@ -75,7 +75,7 @@ class DataGenerator:
             pr_gamma_image_15 = imageProcessing.adjust_gamma(rescaled_image, gamma=1.5)
 
             # Text Display
-            cv2.putText(img=pr_rescaled_image, text='Original', org=(0, 12), fontFace=fF, fontScale=fS, color=c,
+            cv2.putText(img=pr_rescaled_image, text='Original "A" to Save', org=(0, 12), fontFace=fF, fontScale=fS, color=c,
                         thickness=t)
             cv2.putText(img=pr_gamma_image_05, text='G: 0.5 "Q" to Save', org=(0, 12), fontFace=fF, fontScale=fS,
                         color=c, thickness=t)
@@ -176,6 +176,11 @@ class DataGenerator:
                 fileManager.save_image_nokeyword(path="Output_Directory", image=gamma_image_15, index=index)
                 fileManager.save_text_file(path="Gamma_Values", value="1.5")
                 print("Saved image successfully with a gamma of 1.5")
+            elif userInput == 'a':
+                fileManager.save_image_nokeyword(path="Original_Directory", image=rescaled_image, index=index)
+                fileManager.save_image_nokeyword(path="Output_Directory", image=rescaled_image, index=index)
+                fileManager.save_text_file(path="Gamma_Values", value="1.0")
+                print("Saved image successfully with a gamma of 1.0 *Original*")
 
             cv2.destroyAllWindows()
             index += 1
