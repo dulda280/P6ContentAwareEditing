@@ -40,13 +40,13 @@ class DBscan:
         # Number of clusters in labels, ignoring noise if present.
         n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
         n_noise_ = list(labels).count(-1)
-        # print("=======================================================================")
-        # print("Labels on clusters \n", labels)
-        # print("-----------------------------------------------------------------------")
-        # print("Estimated number of clusters: %d" % n_clusters_)
-        # print("Estimated number of noise points: %d" % n_noise_)
-        # print("=======================================================================")
-        #print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(self.data, labels))
+        print("=======================================================================")
+        print("Labels on clusters \n", labels)
+        print("-----------------------------------------------------------------------")
+        print("Estimated number of clusters: %d" % n_clusters_)
+        print("Estimated number of noise points: %d" % n_noise_)
+        print("=======================================================================")
+        print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(self.data, labels))
 
         # Black removed and is used for noise instead.
         unique_labels = set(labels)

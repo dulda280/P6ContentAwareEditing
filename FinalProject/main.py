@@ -5,6 +5,7 @@ from ThomasMain import *
 from CornerDetection import *
 from FileManager import *
 from Normalize import *
+from HOG import *
 
 if __name__ == '__main__':
     # Class Instantiations
