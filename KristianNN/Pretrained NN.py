@@ -62,8 +62,10 @@ print(test[1][1][1])
 model1 = VGG16(include_top=False, input_shape=(128, 128, 3))
 
 flat1 = Flatten()(model1.layers[-1].output)
-class1 = Dense(1024, kernel_initializer='normal', activation='relu')(flat1)
-output = Dense(1,kernel_initializer='normal', activation= 'relu')(class1)
+conv1 = Conv2D(64,(3,3), kernel_initializer='normal', activation='relu')(flat1)
+conv2 = Conv2D(64,(3,3), kernel_initializer='normal', activation='relu')(conv1)
+dense = Dense(64,kernel_initializer='normal', activation= 'relu')(conv2)
+output = Dense(1,kernel_initializer='normal', activation= 'relu')(dense)
 
 model1 = Model(inputs=model1.inputs, outputs=output)
 # Define the loss and a
