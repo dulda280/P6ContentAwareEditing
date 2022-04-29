@@ -7,6 +7,7 @@ from FileManager import *
 from Normalize import *
 from HOG import *
 
+
 if __name__ == '__main__':
     # Class Instantiations
     fileManager = FileManager()
@@ -16,6 +17,8 @@ if __name__ == '__main__':
     images = Downsampling()
     img = images.rescale_images()
     hsvImg = images.BGR2HSV()
+    freshIMG = images.import_images()
+    rscImages = rescale_image(freshIMG, 128, 64)
     # Cluster hue values in images
     # kmeans = Kmeans()
     # kmeans.clustering()
@@ -35,7 +38,7 @@ if __name__ == '__main__':
     corner_data = corner.main()
     #print("corner_data: ", corner_data)
     #print(len(corner_data))
-
+    hogs = HOG(rscImages)
     matrix = (normalize.norm(data), normalize.norm(edge_data[0]), normalize.norm(edge_data[1]), normalize.norm(corner_data))
     print(matrix)
     # Cluster images based on edges and hue
@@ -57,6 +60,8 @@ if __name__ == '__main__':
     print("Largest edges list", edge_data[1])
     print("Largest edges list Mean", np.mean(edge_data[1]))
     print("Largest edges list Length", len(edge_data))
+    print("*************************************************")
+    print("HOGGERSS:", print(len(hogs)))
     print("*************************************************")
 
 

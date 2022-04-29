@@ -19,11 +19,14 @@ class DBscan:
         self.edge_data = edgeGroups, largestEdge
         self.corner_data = corners
 
+
     def merge_data(self):
         for i in range(0, len(self.data)):
             self.data[i].append(float(self.edge_data[0][i]))  # append largest edge
             self.data[i].append(float(self.edge_data[1][i]))  # append number of edges
-            self.data[i].append(float(self.corner_data[i]))   # number of corners
+            self.data[i].append(float(self.corner_data[i]))
+
+            # number of corners
             #self.data[i].append(float(self.corner_data[1][i]))
 
         # print("corner_data 0 =", self.corner_data)
