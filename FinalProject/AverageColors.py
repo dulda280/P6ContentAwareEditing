@@ -8,14 +8,15 @@ class AverageColors:
 
     # Calculate mean values for the R, G, and B colour channels
     def mean_values(self, img, square_size):
-        red = []
-        green = []
-        blue = []
+        hue = []
+        sat = []
+        val = []
 
         yStart = 0
         yStop = square_size
 
         averages = []
+        hue_averages = []
         count = 0
 
         while yStop <= img.shape[0]:
@@ -27,20 +28,21 @@ class AverageColors:
 
                 for y in range(yStart, yStop):
                     for x in range(xStart, xStop):
-                        red.append(img[y, x][2])
-                        green.append(img[y, x][1])
-                        blue.append(img[y, x][0])
+                        hue.append(img[y, x][0])
+                        sat.append(img[y, x][1])
+                        val.append(img[y, x][2])
 
-                # calculate average
-                average = [round(sum(blue) / len(blue), 0),
-                           round(sum(green) / len(green), 0),
-                           round(sum(red) / len(red), 0)]
+                # calculate HSV average
+                average = [round(sum(hue) / len(hue), 0),
+                           round(sum(sat) / len(sat), 0),
+                           round(sum(val) / len(val), 0)]
                 averages.append(average)
+                hue_averages.append(round(sum(hue) / len(hue), 0))
 
                 # empty arrays
-                red = []
-                green = []
-                blue = []
+                val = []
+                sat = []
+                hue = []
                 count += 1
 
                 # move to new area in x direction
@@ -53,15 +55,17 @@ class AverageColors:
 
         for y in range(0, img.shape[0] - 1):
             for x in range(0, img.shape[1] - 1):
-                red.append(img[y, x][2])
-                green.append(img[y, x][1])
-                blue.append(img[y, x][0])
+                hue.append(img[y, x][0])
+                sat.append(img[y, x][1])
+                val.append(img[y, x][2])
+
 
         if self.debug == True:
             print(count)
             print(len(averages))
-            bgr_img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
-            cv.imshow("img", bgr_img)
+            print("All averages:", averages)
+            #bgr_img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
+            cv.imshow("img", img)
             cv.waitKey(0)
 
         return averages
@@ -98,8 +102,8 @@ class AverageColors:
 
         if self.debug == True:
             print(count)
-            bgr_img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
-            cv.imshow("pixels", bgr_img)
+            #bgr_img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
+            cv.imshow("pixels", img)
             cv.waitKey(0)
 
     def main(self, directory):
