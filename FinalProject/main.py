@@ -1,4 +1,5 @@
 from Downsampling import *
+from AverageColors import *
 from Kmeans import *
 from DBscan import *
 from ThomasMain import *
@@ -19,21 +20,20 @@ if __name__ == '__main__':
     hsvImg = images.BGR2HSV()
     freshIMG = images.import_images()
     rscImages = rescale_image(freshIMG, 128, 64)
+
+    # Calculate average colors
+    avg = AverageColors()
+    avg.main(hsvImg)
+
     # Cluster hue values in images
-    # kmeans = Kmeans()
-    # kmeans.clustering()
-
-    # canny = ThomasMain()
-    # canny.main()
-
-    # corner = CornerDetection()
-    # corner.main()
     kmeans = Kmeans(hsvImg)
     data = kmeans.clustering()
 
+    # Edge detection
     canny = ThomasMain(img)  # return self.largest_edge, self.number_of_edges
     edge_data = canny.main(False)  # return self.largest_edge, self.number_of_edges
 
+    # Corner detection
     corner = CornerDetection(img)
     corner_data = corner.main()
     #print("corner_data: ", corner_data)
