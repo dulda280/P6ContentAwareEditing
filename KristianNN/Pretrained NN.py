@@ -15,8 +15,8 @@ from keras.applications.vgg16 import VGG16
 
 
 # Path to trian and test pictures
-path = "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/train/*.jpg"
-pathTest= "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/test/*.jpg"
+path = "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/train_landscape/*.jpg"
+pathTest= "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/test_landscape/*.jpg"
 files = glob.glob(path)
 files2 = glob.glob(pathTest)
 # Size of img being fed to the network
@@ -27,7 +27,7 @@ x = []
 # Array for test images
 test = []
 image_array = []
-output_data = numpy.loadtxt("train.csv")
+output_data = numpy.loadtxt("Landscape_gamma_values.csv")
 
 print("Preparing train data...")
 # saves images from file folder to an array
@@ -62,10 +62,8 @@ print(test[1][1][1])
 model1 = VGG16(include_top=False, input_shape=(128, 128, 3))
 
 flat1 = Flatten()(model1.layers[-1].output)
-conv1 = Conv2D(64,(3,3), kernel_initializer='normal', activation='relu')(flat1)
-conv2 = Conv2D(64,(3,3), kernel_initializer='normal', activation='relu')(conv1)
-dense = Dense(64,kernel_initializer='normal', activation= 'relu')(conv2)
-output = Dense(1,kernel_initializer='normal', activation= 'relu')(dense)
+dense = Dense(64,kernel_initializer='normal', activation= 'relu')(flat1)
+output = Dense(1,kernel_initializer='normal', activation= 'linear')(dense)
 
 model1 = Model(inputs=model1.inputs, outputs=output)
 # Define the loss and a
@@ -77,7 +75,7 @@ model1.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_abso
 # Fit the model with the desired batch size(runthroughs before the weights are updated), epochs(how many times the network goes through the layers)
 # and validation split(split between train and test data).
 print("Training network...")
-model1.fit(x,y, batch_size=1, epochs= 1, validation_split = 0.2)
+model1.fit(x,y, batch_size=1, epochs= 10, validation_split = 0.2)
 model1.summary()
 # Use the trained network to make a prediction on some test images
 prediction = model1.predict(test)

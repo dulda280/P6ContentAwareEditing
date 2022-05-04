@@ -10,11 +10,13 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
 from tensorflow import keras
 from keras import layers
+from keras.layers.advanced_activations import LeakyReLU
+from keras.layers import BatchNormalization
 
 
 # Path to trian and test pictures
-path = "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/train/*.jpg"
-pathTest= "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/test/*.jpg"
+path = "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/train_portrait/*.jpg"
+pathTest= "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/test_portrait/*.jpg"
 files = glob.glob(path)
 files2 = glob.glob(pathTest)
 # Size of img being fed to the network
@@ -25,7 +27,7 @@ x = []
 # Array for test images
 test = []
 image_array = []
-output_data = numpy.loadtxt("train.csv")
+output_data = numpy.loadtxt("PortraitCSV.csv")
 
 print("Preparing train data...")
 # saves images from file folder to an array
@@ -57,23 +59,41 @@ y = np.array(y)
 
 # Setting up the network, starting with a convulutional layer.
 model = Sequential()
-model.add(Conv2D(64, (3,3), kernel_initializer='normal', input_shape = x.shape[1:], activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Conv2D(128, (5,5), kernel_initializer='normal', input_shape = x.shape[1:], activation='relu'))
+
+#model.add(LeakyReLU(alpha=0.01))
+model.add(MaxPooling2D(pool_size=(3,3)))
 # Another convolutional layer
-model.add(Conv2D(64, (3,3),kernel_initializer='normal', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Conv2D(64, (5,5),kernel_initializer='normal', activation='relu'))
+
+#model.add(LeakyReLU(alpha=0.01))
+model.add(MaxPooling2D(pool_size=(3,3)))
+
+#model.add(LeakyReLU(alpha=0.01))
+model.add(Conv2D(32, (3,3),kernel_initializer='normal', activation='relu'))
+model.add(Conv2D(32, (3,3),kernel_initializer='normal', activation='relu'))
+model.add(Conv2D(32, (3,3),kernel_initializer='normal', activation='relu'))
+#model.add(LeakyReLU(alpha=0.01))
+model.add(MaxPooling2D(pool_size=(3,3)))
 # Flattens the data
 model.add(Flatten())
 model.add(Dense(64, kernel_initializer='normal', activation='relu'))
-# End the network with an output layer, that only has one output
 
-model.add(Dense(1, kernel_initializer='normal', activation='relu'))
+#model.add(LeakyReLU(alpha=0.01))
+model.add(Dense(64, kernel_initializer='normal', activation='relu'))
+#model.add(LeakyReLU(alpha=0.01))
+# End the network with an output layer, that only has one output
+model.add(BatchNormalization())
+model.add(Dense(1, kernel_initializer='normal', activation='linear'))
+
+#model.add(LeakyReLU(alpha=0.01))
 # Define the loss and activation function
-model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
+opt = keras.optimizers.Adam(learning_rate=3e-5)
+model.compile(loss='mean_absolute_error', optimizer=opt, metrics=['mean_absolute_error'])
 # Fit the model with the desired batch size(runthroughs before the weights are updated), epochs(how many times the network goes through the layers)
 # and validation split(split between train and test data).
 print("Training network...")
-model.fit(x,y, batch_size=1, epochs= 5, validation_split = 0.2)
+model.fit(x,y, batch_size=1, epochs= 10, validation_split = 0.2)
 
 model.summary()
 # Use the trained network to make a prediction on some test images
@@ -98,5 +118,5 @@ for i in files2:
 for i in range(0,len(test2)):
     gammaImage = adjust_gamma(test2[i], gamma=prediction[i])
     gamma_images.append(gammaImage)
-    cv2.imwrite('C:/Users/krell/PycharmProjects/P6ContentAwareEditing/KristianNN/RedigeretAfNetvaerk/' + str(i) + '.jpg', gamma_images[i])
+    cv2.imwrite('C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/redigeret/' + str(i) + '.jpg', gamma_images[i])
 print("Saved Pictures in folder: RedigeretAfNetvaerk")
