@@ -68,7 +68,7 @@ class AverageColors:
             cv.imshow("img", img)
             cv.waitKey(0)
 
-        return averages
+        return averages, hue_averages
 
     def show_image(self, img, square_size, averages):
 
