@@ -6,7 +6,9 @@ import cv2
 import os, shutil, glob, os.path
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
-from Evaluation import *
+from FinalProject import Evaluation
+from FinalProject.Evaluation import Evaluate
+
 
 def HOG(imageDir):
     featureVector = []
@@ -41,7 +43,7 @@ def makeImageFolder(path=os.getcwd() + '\\Input_Directory_Landscape'):
         # print("next image: ", pathDir[image])
         # print("len", len(pathDir))
 
-        temp = cv2.imread(str(path) + '\\' + str(pathDir[image]), cv2.IMREAD_COLOR)
+        temp = cv2.imread(str(path) + '/' + str(pathDir[image]), cv2.IMREAD_COLOR)
         images.append(temp)
 
     return images, pathDir
@@ -69,11 +71,14 @@ def rescale_image(imageDir, res_x=128, res_y=64):
 
 
 if __name__ == "__main__":
-    pathLandscape = "C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\KristianNN\\train_landscape"
-    pathPortrait = "C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\KristianNN\\train_portrait"
+    pathLandscape = "P6ContentAwareEditing\\KristianNN\\train_landscape"
+    pathPortrait = "P6ContentAwareEditing\\KristianNN\\train_portrait"
+    pathMac = path=os.getcwd() + '/KristianNN/train_portrait'
+    pathMac2 = os.getcwd() + '/KristianNN/train_landscape'
+
     targetdir = "images//kmeansHOG//"
-    hsvImgesPortrait, portDir = makeImageFolder(pathPortrait)
-    hsvImgesLandscape, landDir = makeImageFolder(pathLandscape)
+    hsvImgesPortrait, portDir = makeImageFolder(pathMac)
+    hsvImgesLandscape, landDir = makeImageFolder(pathMac2)
     hsvImgPort = hsvImgesPortrait
     hsvImgLand = hsvImgesLandscape
     rscImgLand = rescale_image(hsvImgLand, 256, 256)
@@ -108,10 +113,10 @@ if __name__ == "__main__":
     for index in range(landRange + 1, landRange + len(kmeans.labels_[landRange:portRange]) + 1):
         if kmeans.labels_[index] == 1:
             portClusterCount += 1
-    print("------------------------------------")
+
     print(f"Kmeans Landscape clustering accuracy: {(landClusterCount / len(hsvImgLand)) * 100}%")
     print(f"Kmeans Portrait clustering accuracy: {(portClusterCount / len(hsvImgPort)) * 100}%")
-
+    print("------------------------------------")
     # for index in range(len(kmeans.labels_)):
     #     if kmeans.labels_[index] == 0:
     #         cluster0Img = allImages[index]
@@ -136,7 +141,7 @@ if __name__ == "__main__":
     for index in range(landRange + 1, landRange + len(db.labels_[landRange:portRange]) + 1):
         if db.labels_[index] == -1:
             dbPortcount += 1
-    print("------------------------------------")
+
     print(f"DBscan, Landscape clustering accuracy: {(dbLandcount / len(hsvImgLand)) * 100}%")
     print(f"DBscan, Portrait clustering accuracy: {(dbPortcount / len(hsvImgPort)) * 100}%")
     labels = db.labels_
@@ -155,3 +160,5 @@ if __name__ == "__main__":
     evaluate = Evaluate(groundTruthDB, labels, -1, 0)
     evaluate.confusionMatrix()
     evaluate.precisionAndRecall()
+    evaluate.predictionError()
+    evaluate.sumAllDiff(groundTruthDB, labels)

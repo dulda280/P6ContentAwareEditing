@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 
 
+
 class Evaluate:
 
     def __init__(self, groundTruth, predictions, focusedClusterValue, comparisonClusterValue):
@@ -16,7 +17,26 @@ class Evaluate:
         self.FN = 0
 
     def predictionError(self):
-        return mean_squared_error(self.groundTruth, self.predictions)
+        err = mean_squared_error(self.groundTruth, self.predictions)
+        
+        print(f"Prediction error: {err}")
+        print("______________________________________________")
+        return err
+
+    def sumAllDiff(self, groundTruth, predictions):
+        # Find sum of all differences in all pairs in a two sorted arrays of index-corresponding numbers
+        summ = 0
+        if len(groundTruth) != len(predictions):
+            raise ValueError('Ground truth-array and Prediction-array of inequal length! Returning sum=0')
+        else:
+            for index in range(0, len(predictions)):
+                summ += abs(groundTruth[index] - predictions[index])
+
+        print(f"Sum of all differences: {summ}")
+        print("______________________________________________")
+        return summ
+
+
 
     def confusionMatrix(self):
         # Predict when we see a portrait
