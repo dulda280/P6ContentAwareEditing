@@ -4,7 +4,7 @@ import numpy as np
 
 class AverageColors:
 
-    debug = True
+    debug = False
 
     # Calculate mean values for the R, G, and B colour channels
     def mean_values(self, img, square_size):
@@ -108,6 +108,10 @@ class AverageColors:
 
     def main(self, directory):
         square_size = 8
+        hueFeatureArr = []
         for img in directory:
-            averages = self.mean_values(img, square_size)
-            self.show_image(img, square_size, averages)
+            averages, hueAvg = self.mean_values(img, square_size)
+            hueFeatureArr.append(hueAvg)
+            #self.show_image(img, square_size, averages)
+
+        return hueFeatureArr

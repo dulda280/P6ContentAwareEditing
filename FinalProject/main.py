@@ -7,7 +7,7 @@ from CornerDetection import *
 from FileManager import *
 from Normalize import *
 from HOG import *
-
+import math
 
 if __name__ == '__main__':
     # Class Instantiations
@@ -23,11 +23,11 @@ if __name__ == '__main__':
 
     # Calculate average colors
     avg = AverageColors()
-    avg.main(hsvImg)
+    avgHue = avg.main(hsvImg)
 
     # Cluster hue values in images
     kmeans = Kmeans(hsvImg)
-    data = kmeans.clustering()
+    fiveColours = kmeans.clustering()
 
     # Edge detection
     canny = ThomasMain(img)  # return self.largest_edge, self.number_of_edges
@@ -35,21 +35,22 @@ if __name__ == '__main__':
 
     # Corner detection
     corner = CornerDetection(img)
-    corner_data = corner.main()
+    corner_data, cornerBoxData = corner.main()
     #print("corner_data: ", corner_data)
     #print(len(corner_data))
     hogs = HOG(rscImages)
-    matrix = (normalize.norm(data), normalize.norm(edge_data[0]), normalize.norm(edge_data[1]), normalize.norm(corner_data))
-    print(matrix)
+    #matrix = (normalize.norm(data), normalize.norm(edge_data[0]), normalize.norm(edge_data[1]), normalize.norm(corner_data), cornerBoxData)
+    #print(matrix)
     # Cluster images based on edges and hue
-    db = DBscan(data, edge_data[0], edge_data[1], corner_data)
-    db.merge_data()
+    db = DBscan(avgHue, edge_data[0], edge_data[1], corner_data, cornerBoxData)
+    mergeSample = db.merge_data()
     db.classify()
 
     print("*************************************************")
-    print("Data", data)
-    print("Data Mean", np.mean(data))
-    print("Data Length", len(data))
+    print("Merge data sample: ", mergeSample[3])
+    print("Data", fiveColours)
+    print("Data Mean", np.mean(fiveColours))
+    print("Data Length", len(fiveColours))
     print("Corner Data", corner_data)
     print("Corner Data Mean", np.mean(corner_data))
     print("Corner Data Length", len(corner_data))

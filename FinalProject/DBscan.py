@@ -14,17 +14,32 @@ class DBscan:
 
     # import data
 
-    def __init__(self, fiveColours, largestEdge, edgeGroups, corners):
+    def __init__(self, fiveColours, largestEdge, edgeGroups, corners, cornerBox):
         self.data = fiveColours
         self.edge_data = edgeGroups, largestEdge
         self.corner_data = corners
+        self.cornerBoxed = cornerBox
+        # self.collData = []
+        # self.collData.append(self.data)
+        # self.collData.append(self.edge_data[0])
+        # self.collData.append(self.edge_data[1])
+        # self.collData.append(self.corner_data)
+        # self.collData.append(self.cornerBoxed)
+        # print(f"Length color: {len(self.data)}")
+        # print(f"Length edge1: {len(self.edge_data[0])}")
+        # print(f"Length edge2: {len(self.edge_data[1])}")
+        # print(f"Length corner: {len(self.corner_data)}")
+        # print(f"Length cornerbox: {len(self.cornerBoxed)}")
+        # print(f"colldata: {self.collData}")
+
 
 
     def merge_data(self):
         for i in range(0, len(self.data)):
-            self.data[i].append(float(self.edge_data[0][i]))  # append largest edge
-            self.data[i].append(float(self.edge_data[1][i]))  # append number of edges
-            self.data[i].append(float(self.corner_data[i]))
+            self.data[i].append(self.edge_data[0][i])  # append largest edge
+            self.data[i].append(self.edge_data[1][i])  # append number of edges
+            self.data[i].append(self.corner_data[i])
+            self.data[i].append(self.cornerBoxed[i])
 
             # number of corners
             #self.data[i].append(float(self.corner_data[1][i]))
@@ -35,7 +50,7 @@ class DBscan:
 
     def classify(self):
         # Compute DBSCAN00
-        db = DBSCAN(eps=75, min_samples=2).fit(self.data)
+        db = DBSCAN(eps=400, min_samples=2).fit(self.data)
         core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
         core_samples_mask[db.core_sample_indices_] = True
         labels = db.labels_
