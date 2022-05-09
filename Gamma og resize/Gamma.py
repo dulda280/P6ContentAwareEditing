@@ -28,43 +28,47 @@ def adjust_gamma(image, gamma=1.0):
 
 
 if __name__ == "__main__":
-    doGammaStuff = False
+    doGammaStuff = True
     if doGammaStuff:
-        x = int(image.shape[0] / 4)
-        y = int(image.shape[1] / 4)
+        path = "C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\EvaluationDATA\\Portraits\\uredigeret\\"
+        dir = os.listdir(path)
+        print("dir ", path + str(dir[0]))
 
-        new_image = rescale_image(image, x, y)
+        image = cv.imread(path + str(dir[9]))
+        new_image = rescale_image(image, int(image.shape[0] * 1 / 7), int(image.shape[1] * 1 / 7))
         gamma_image = adjust_gamma(new_image, gamma=1.2)
 
         cv.imshow('OG rescaled', new_image)
         cv.imshow('gamma', gamma_image)
 
         # Wait until user press some key
-        cv.waitKey()
+        cv.waitKey(0)
+
+        gammaSave = adjust_gamma(image, gamma=1.2)
         # cv.imwrite('C:/Users/krell/PycharmProjects/Convulutionalneurnalenrtnenrewo/Redigeret/brightness.jpg', new_image)
-        cv.imwrite('C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\trainingData\\trainedImage1.jpg',
-                   gamma_image)
+        cv.imwrite(f'C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\EvaluationDATA\\Portraits\\redigeretMAN\\{9}.jpg',
+                   gammaSave)
         print('hej')
 
-    path = os.getcwd()
-    path = path + '\\data'
-    print('her er path: ', path)
-    pathDir = os.listdir(path)
-    print('her er directory: ', pathDir)
-    print("hvad:_ ", path + "\\" + pathDir[1])
-    imgP = str(path + "\\" + pathDir[59])
-
-
-    image = cv2.imread(imgP)
-
-    new_image = rescale_image(image, int(image.shape[0]*3/4), int(image.shape[1]*3/4))
-    gamma_image = adjust_gamma(new_image, gamma=1.)
-
-    cv.imshow(f'{pathDir[3]}', new_image)
-    cv.imshow('gamma', gamma_image)
-    cv.waitKey(0)
-    # Wait until user press some key
-
-    # cv.imwrite('C:/Users/krell/PycharmProjects/Convulutionalneurnalenrtnenrewo/Redigeret/brightness.jpg', new_image)
-    cv.imwrite('C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\Gamma og resize\\correctedData\\corrected60.jpg', gamma_image)
+    # path = os.getcwd()
+    # path = path + '\\data'
+    # print('her er path: ', path)
+    # pathDir = os.listdir(path)
+    # print('her er directory: ', pathDir)
+    # print("hvad:_ ", path + "\\" + pathDir[1])
+    # imgP = str(path + "\\" + pathDir[59])
+    #
+    #
+    # image = cv2.imread(imgP)
+    #
+    # new_image = rescale_image(image, int(image.shape[0]*3/4), int(image.shape[1]*3/4))
+    # gamma_image = adjust_gamma(new_image, gamma=1.)
+    #
+    # cv.imshow(f'{pathDir[3]}', new_image)
+    # cv.imshow('gamma', gamma_image)
+    # cv.waitKey(0)
+    # # Wait until user press some key
+    #
+    # # cv.imwrite('C:/Users/krell/PycharmProjects/Convulutionalneurnalenrtnenrewo/Redigeret/brightness.jpg', new_image)
+    # cv.imwrite('C:\\Users\\sebbe\\Desktop\\MED-local\\P6ContentAwareEditing\\Gamma og resize\\correctedData\\corrected60.jpg', gamma_image)
 
