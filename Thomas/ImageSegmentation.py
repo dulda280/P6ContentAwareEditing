@@ -18,7 +18,7 @@ fileManager = FileManager()
 # Variables
 imdir = "Thomas//images//image_directory"
 targetdir = "Thomas//images//save_directory//"
-number_clusters = 3
+number_clusters = 2
 
 # Loop over files and get features
 filelist = glob.glob(os.path.join(imdir, ('*.jpg' or '*.jpeg')))
@@ -34,7 +34,7 @@ for i, imagepath in enumerate(filelist):
     featurelist.append(features.flatten())
 
 # Clustering
-kmeans = KMeans(n_clusters=number_clusters, random_state=0, algorithm="elkan").fit(np.array(featurelist))
+kmeans = KMeans(n_clusters=number_clusters, random_state=0, algorithm="elkan", init="kmeans++").fit(np.array(featurelist))
 
 # Copy images renamed by cluster 
 # Check if target dir exists
@@ -52,4 +52,4 @@ for i, clusterGroup in enumerate(kmeans.labels_):
     elif clusterGroup == 1:
         shutil.copy(filelist[i], targetdir + "//Cgroup_1//" + str(i) + "_" + "cgroup_" + str(clusterGroup) + "_"  + ".jpg")
     else:
-        shutil.copy(filelist[i], targetdir + "//Cgroup_2//" + str(i) + "_" + "cgroup_" + str(clusterGroup) + "_"  + ".jpg")
+        continue
