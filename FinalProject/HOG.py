@@ -6,8 +6,7 @@ import cv2
 import os, shutil, glob, os.path
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
-from FinalProject import Evaluation
-from FinalProject.Evaluation import Evaluate
+from Evaluation import *
 
 
 def HOG(imageDir):

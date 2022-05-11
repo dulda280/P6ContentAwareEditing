@@ -1,3 +1,4 @@
+import glob
 import shutil
 from sklearn.cluster import KMeans
 
@@ -8,12 +9,16 @@ class Kmeans:
     fileManager = FileManager()
 
     # save images to:
-    targetdir = "Thomas//images//save_directory//"
+    imdir = "Thomas//images//image_directory"
+    targetdir = "FinalProject//images//save_directory//"
+
+    filelist = glob.glob(os.path.join(imdir, ('*.jpg' or '*.jpeg')))
+    filelist.sort()
 
     def clustering(self, features, img):
 
         # Clustering
-        kmeans = KMeans(n_clusters=2, random_state=0, algorithm="elkan", init="k-means++").fit(np.array(features))
+        kmeans = KMeans(n_clusters=2, random_state=0, init="k-means++").fit(np.array(features))
 
         # Save image to directory
         print("\n")
@@ -22,9 +27,9 @@ class Kmeans:
             # fileManager.save_image(targetdir, filelist[i], "cluster_group", str(i))
             if clusterGroup == 0:
                 shutil.copy(self.filelist[i],
-                            self. targetdir + "//Cgroup_0//" + str(i) + "_" + "cgroup_" + str(clusterGroup) + "_" + ".jpg")
+                            self. targetdir + "//Cluster_Group_01//" + str(i) + "_" + "cgroup_" + str(clusterGroup) + "_" + ".jpg")
             elif clusterGroup == 1:
                 shutil.copy(self.filelist[i],
-                            self.targetdir + "//Cgroup_1//" + str(i) + "_" + "cgroup_" + str(clusterGroup) + "_" + ".jpg")
+                            self.targetdir + "//Cluster_Group_02//" + str(i) + "_" + "cgroup_" + str(clusterGroup) + "_" + ".jpg")
             else:
                 continue

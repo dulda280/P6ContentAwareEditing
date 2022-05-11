@@ -34,7 +34,7 @@ for i, imagepath in enumerate(filelist):
     featurelist.append(features.flatten())
 
 # Clustering
-kmeans = KMeans(n_clusters=number_clusters, random_state=0, algorithm="elkan", init="kmeans++").fit(np.array(featurelist))
+kmeans = KMeans(n_clusters=number_clusters, random_state=0, algorithm="elkan", init="k-means++").fit(np.array(featurelist))
 
 # Copy images renamed by cluster 
 # Check if target dir exists
