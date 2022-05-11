@@ -6,51 +6,12 @@ import matplotlib.pyplot as plt
 # https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html
 # https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html#sphx-glr-auto-examples-cluster-plot-dbscan-py
 
-from Kmeans import *
-from ThomasMain import *
-from CornerDetection import *
 
 class DBscan:
 
-    # import data
-
-    def __init__(self, fiveColours, largestEdge, edgeGroups, corners, cornerBox):
-        self.data = fiveColours
-        self.edge_data = edgeGroups, largestEdge
-        self.corner_data = corners
-        self.cornerBoxed = cornerBox
-        # self.collData = []
-        # self.collData.append(self.data)
-        # self.collData.append(self.edge_data[0])
-        # self.collData.append(self.edge_data[1])
-        # self.collData.append(self.corner_data)
-        # self.collData.append(self.cornerBoxed)
-        # print(f"Length color: {len(self.data)}")
-        # print(f"Length edge1: {len(self.edge_data[0])}")
-        # print(f"Length edge2: {len(self.edge_data[1])}")
-        # print(f"Length corner: {len(self.corner_data)}")
-        # print(f"Length cornerbox: {len(self.cornerBoxed)}")
-        # print(f"colldata: {self.collData}")
-
-
-
-    def merge_data(self):
-        for i in range(0, len(self.data)):
-            self.data[i].append(self.edge_data[0][i])  # append largest edge
-            self.data[i].append(self.edge_data[1][i])  # append number of edges
-            self.data[i].append(self.corner_data[i])
-            self.data[i].append(self.cornerBoxed[i])
-
-            # number of corners
-            #self.data[i].append(float(self.corner_data[1][i]))
-
-        # print("corner_data 0 =", self.corner_data)
-        # print("DATA: [HUE, HUE, HUE, HUE, HUE, LARGEST_EDGE, N_EDGES] \n", self.data)
-        return self.data
-
-    def classify(self):
+    def classify(self, feature_array):
         # Compute DBSCAN00
-        db = DBSCAN(eps=400, min_samples=2).fit(self.data)
+        db = DBSCAN(eps=0.8, min_samples=2).fit(feature_array)
         core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
         core_samples_mask[db.core_sample_indices_] = True
         labels = db.labels_
@@ -64,7 +25,13 @@ class DBscan:
         print("Estimated number of clusters: %d" % n_clusters_)
         print("Estimated number of noise points: %d" % n_noise_)
         print("=======================================================================")
-        print("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(self.data, labels))
+        # print("Confusion matrix", metrics.confusion_matrix())
+        # print("Precision", metrics.precision_score())
+        # print("Recall", metrics.recall_score())
+        # print("Precision and recall curve", metrics.plot_precision_recall_curve)
+        # print("F-score", metrics.f1_score())
+        # print("Accuracy", metrics.accuracy_score())
+        # print("Mean squared error", metrics.mean_squared_error())
 
         # Black removed and is used for noise instead.
         unique_labels = set(labels)
@@ -75,8 +42,6 @@ class DBscan:
                 col = [0, 0, 0, 1]
 
             class_member_mask = labels == k
-            # print("WHAST", class_member_mask)
-            # print("corewhat,", core_samples_mask)
             # xy = self.data[class_member_mask & core_samples_mask]
             # print(xy)
             # plt.plot(xy[:, 0], xy[:, 1], "o", markerfacecolor=tuple(col), markeredgecolor="k", markersize=14, )

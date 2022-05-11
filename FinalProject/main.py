@@ -1,7 +1,8 @@
 from Downsampling import *
 from AverageColors import *
-from Kmeans import *
+from KmeansFeature import *
 from DBscan import *
+from Kmeans import *
 from ThomasMain import *
 from CornerDetection import *
 from FileManager import *
@@ -12,55 +13,57 @@ import math
 if __name__ == '__main__':
     # Class Instantiations
     fileManager = FileManager()
-    normalize = Normalize()
 
     # Import images, rescale, convert to HSV
     images = Downsampling()
     img = images.rescale_images()
     hsvImg = images.BGR2HSV()
-    freshIMG = images.import_images()
-    rscImages = rescale_image(freshIMG, 128, 64)
 
     # Calculate average colors
     avg = AverageColors()
     avgHue = avg.main(hsvImg)
 
-    # Cluster hue values in images
-    kmeans = Kmeans(hsvImg)
-    fiveColours = kmeans.clustering()
+    # Cluster hue values in images, aka. dominant colours
+    kmeans = KmeansFeature(hsvImg)
+    dominantColours = kmeans.clustering()
 
-    # Edge detection
+    # Edge detection x2
     canny = ThomasMain(img)  # return self.largest_edge, self.number_of_edges
-    edge_data = canny.main(False)  # return self.largest_edge, self.number_of_edges
+    largest_edge, number_of_edges = canny.main(False)  # return self.largest_edge, self.number_of_edges
 
-    # Corner detection
+    # Corner detection x2
     corner = CornerDetection(img)
     corner_data, cornerBoxData = corner.main()
-    #print("corner_data: ", corner_data)
-    #print(len(corner_data))
-    hogs = HOG(rscImages)
-    #matrix = (normalize.norm(data), normalize.norm(edge_data[0]), normalize.norm(edge_data[1]), normalize.norm(corner_data), cornerBoxData)
-    #print(matrix)
+
+    # HOG feature
+    hogs = HOG(img)
+
+    # Normalise the data and create an array of features
+    normalize = Normalize(dominantColours, avgHue, largest_edge, number_of_edges, corner_data, cornerBoxData, hogs)
+    feature_array = normalize.merge_data(img)
+    print("feature_array", feature_array)
+
     # Cluster images based on edges and hue
-    db = DBscan(avgHue, edge_data[0], edge_data[1], corner_data, cornerBoxData)
-    mergeSample = db.merge_data()
-    db.classify()
+    #db = DBscan()
+    #db.classify(feature_array)
+
+    kmeans_cluster = Kmeans()
+    kmeans_cluster.clustering(feature_array, img)
 
     print("*************************************************")
-    print("Merge data sample: ", mergeSample[3])
-    print("Data", fiveColours)
-    print("Data Mean", np.mean(fiveColours))
-    print("Data Length", len(fiveColours))
+    print("Five most dominant colours", dominantColours)
+    print("Dominant colours mean", np.mean(dominantColours))
+    print("Dominant colours length", len(dominantColours))
     print("Corner Data", corner_data)
     print("Corner Data Mean", np.mean(corner_data))
     print("Corner Data Length", len(corner_data))
     print("*************************************************")
-    print("Number of edges list", edge_data[0])
-    print("Number of edges list Mean", np.mean(edge_data[0]))
-    print("Number of edges list Length", len(edge_data))
-    print("Largest edges list", edge_data[1])
-    print("Largest edges list Mean", np.mean(edge_data[1]))
-    print("Largest edges list Length", len(edge_data))
+    print("Number of edges list", number_of_edges)
+    print("Number of edges list Mean", np.mean(number_of_edges))
+    print("Number of edges list Length", len(number_of_edges))
+    print("Largest edges list", largest_edge)
+    print("Largest edges list Mean", np.mean(largest_edge))
+    print("Largest edges list Length", len(largest_edge))
     print("*************************************************")
     print("HOGGERSS:", print(len(hogs)))
     print("*************************************************")

@@ -27,7 +27,6 @@ class CornerDetection:
         return gausImages
 
     def getAllCorners(self, imageDir):
-
         n_corners = []
         n_withinBox = []
         n_filterConers = []
@@ -49,8 +48,8 @@ class CornerDetection:
                     filteredCorners += 1
 
             n_filterConers.append(filteredCorners)
-            n_withinBox.append(filteredCorners/len(corners))
-            n_corners.append(len(corners))
+            n_withinBox.append([filteredCorners/len(corners)])
+            n_corners.append([len(corners)])
 
         # print("n_corners", n_corners)
         return n_corners, n_withinBox

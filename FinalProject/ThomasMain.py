@@ -69,8 +69,8 @@ class ThomasMain:
                 print(dict(zip(unique, counts)))
             index += 1
 
-            self.largest_edge.append(largest_connected_edge)
-            self.number_of_edges.append(num_edge_groups)
+            self.largest_edge.append([largest_connected_edge])
+            self.number_of_edges.append([num_edge_groups])
 
         if verbose:
             print("*************************************************")
