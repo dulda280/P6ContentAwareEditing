@@ -4,7 +4,9 @@ from tqdm import tqdm
 
 
 class Downsampling:
-    folder_dir = "Input_Directory_Portrait"  # image path/directory
+    # folder_dir = "Input_Directory_Portrait"  # image path/directory
+    folder_dir_landscape = "D:/Git_repositoryries/P6ContentAwareEditing/KristianNN/train_landscape"  # image directory
+    folder_dir_portrait = "D:/Git_repositoryries/P6ContentAwareEditing/KristianNN/train_portrait"
 
     resized_img = []
     recolored_img = []
@@ -14,25 +16,35 @@ class Downsampling:
         original_img = []
         # print("Importing images...")
         # print("Importing from directory: ", os.listdir(self.folder_dir))
-        dir = os.listdir(self.folder_dir)
-        for index in tqdm(range(0, len(dir))):
-            print("This img: ", self.folder_dir + "\\" + dir[index], end="\r")
-            img = cv.imread(self.folder_dir + "\\" + dir[index])
+        dir_landscape = os.listdir(self.folder_dir_landscape)
+        dir_portrait = os.listdir(self.folder_dir_portrait)
+
+        for index in tqdm(range(0, len(dir_landscape))):
+            print("This img: ", self.folder_dir_landscape + "\\" + dir_landscape[index], end="\r")
+            img = cv.imread(self.folder_dir_landscape + "\\" + dir_landscape[index])
             if img is not None:
                 original_img.append(img)
 
-        #print("imported folder: ", self.original_img)
-        #print("imported folder length: ", len(self.original_img))
+        n_landscape_photos = len(original_img)
+        print("Number of landscape photos:", n_landscape_photos)
+
+        for index in tqdm(range(0, len(dir_portrait))):
+            print("This img: ", self.folder_dir_portrait + "\\" + dir_portrait[index], end="\r")
+            img = cv.imread(self.folder_dir_portrait + "\\" + dir_portrait[index])
+            if img is not None:
+                original_img.append(img)
+        print("Number of portraits:", len(original_img)-n_landscape_photos)
+
         return original_img
 
     def rescale_images(self):
-        self.original_img = self.import_images()
+        original_img = self.import_images()
         # new image dimensions
         width = 64
         height = 64
         dimensions = (width, height)
 
-        for img in self.original_img:
+        for img in original_img:
             height = img.shape[0]
             width = img.shape[1]
 

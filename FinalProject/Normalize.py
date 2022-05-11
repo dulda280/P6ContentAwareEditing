@@ -70,8 +70,8 @@ class Normalize:
                 data[i].append(self.averageColours[i][j])   # Average colours
             for j in range(0, len(self.hog[i])):
                 data[i].append(self.hog[i][j])
-        print("NORMALISED DATA", data[0])
-        print("LENGTH DATA", len(data[0]))
+        #print("NORMALISED DATA", data[0])
+        #print("LENGTH DATA", len(data[0]))
         return data
 
 
