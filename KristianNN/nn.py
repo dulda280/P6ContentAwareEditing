@@ -15,8 +15,8 @@ from keras.layers import BatchNormalization
 
 
 # Path to trian and test pictures
-path = "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/train_portrait/*.jpg"
-pathTest= "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/test_portrait/*.jpg"
+path = "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/train_landscape/*.jpg"
+pathTest= "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/KristianNN/test_landscape/*.jpg"
 files = glob.glob(path)
 files2 = glob.glob(pathTest)
 # Size of img being fed to the network
@@ -27,7 +27,7 @@ x = []
 # Array for test images
 test = []
 image_array = []
-output_data = numpy.loadtxt("PortraitCSV.csv")
+output_data = numpy.loadtxt("trainlandscape.csv")
 
 print("Preparing train data...")
 # saves images from file folder to an array

@@ -20,14 +20,14 @@ pathTest= "C:/Users/krell/OneDrive/Dokumenter/GitHub/P6ContentAwareEditing/Krist
 files = glob.glob(path)
 files2 = glob.glob(pathTest)
 # Size of img being fed to the network
-img_size = 128
+img_size = 256
 # Input and output arrays
 y = []
 x = []
 # Array for test images
 test = []
 image_array = []
-output_data = numpy.loadtxt("Landscape_gamma_values.csv")
+output_data = numpy.loadtxt("trainlandscape.csv")
 
 print("Preparing train data...")
 # saves images from file folder to an array
@@ -59,7 +59,7 @@ y = np.array(y)
 
 
 print(test[1][1][1])
-model1 = VGG16(include_top=False, input_shape=(128, 128, 3))
+model1 = VGG16(include_top=False, input_shape=(256, 256, 3))
 
 flat1 = Flatten()(model1.layers[-1].output)
 dense = Dense(64,kernel_initializer='normal', activation= 'relu')(flat1)
@@ -70,12 +70,12 @@ model1 = Model(inputs=model1.inputs, outputs=output)
 # ctivation function
 
 
-
-model1.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
+opt = keras.optimizers.Adam(learning_rate=3e-5)
+model1.compile(loss='mean_absolute_error', optimizer=opt, metrics=['mean_absolute_error'])
 # Fit the model with the desired batch size(runthroughs before the weights are updated), epochs(how many times the network goes through the layers)
 # and validation split(split between train and test data).
 print("Training network...")
-model1.fit(x,y, batch_size=1, epochs= 10, validation_split = 0.2)
+model1.fit(x,y, batch_size=1, epochs= 15, validation_split = 0.2)
 model1.summary()
 # Use the trained network to make a prediction on some test images
 prediction = model1.predict(test)
